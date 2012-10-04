@@ -21,6 +21,12 @@ public class PatternMatcherTest {
 		createMatcher(null);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void match_shouldNotAcceptNullAsInput() {
+		PatternMatcher m = createMatcher("ta*ste*");
+		m.matches(null);
+	}
+
 	@Test
 	public void match_shouldUseDotAsPlaceholderForOneChar_WithRandomChar() {
 		PatternMatcher m = createMatcher("t.st");
