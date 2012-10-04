@@ -28,21 +28,45 @@ public class PatternMatcherTest {
 	}
 
 	@Test
-	public void match_shouldUseDotAsPlaceholderForOneChar_WithNoCharGivenShouldNotMatch() {
+	public void match_shouldUseDotAsPlaceholderForOneChar_NoMatchMissingChar() {
 		PatternMatcher m = createMatcher("t.st");
 		assertFalse(m.matches("tst"));
 	}
 
 	@Test
-	public void match_shouldUseDotAsPlaceholderForOneChar_WithRandomCharButTooShort() {
+	public void match_shouldUseDotAsPlaceholderForOneChar_NoMatchTooShort() {
 		PatternMatcher m = createMatcher("t.st");
 		assertFalse(m.matches("tas"));
 	}
 
 	@Test
-	public void match_shouldUseDotAsPlaceholderForOneChar_WithRandomCharButTooLong() {
+	public void match_shouldUseDotAsPlaceholderForOneChar_NoMatchTooLong() {
 		PatternMatcher m = createMatcher("t.st");
 		assertFalse(m.matches("taste"));
+	}
+
+	@Test
+	public void match_shouldUseStarAsPlaceholderForAnyChars_WithNoChars() {
+		PatternMatcher m = createMatcher("t*st");
+		assertTrue(m.matches("tst"));
+	}
+
+	@Test
+	public void match_shouldUseStarAsPlaceholderForAnyChars_WithRandomChars() {
+		PatternMatcher m = createMatcher("t*st");
+		assertTrue(m.matches("tasrestfdst"));
+	}
+
+	@Test
+	public void match_shouldUseStarAsPlaceholderForAnyChars_WithTwoStarsInPattern() {
+		PatternMatcher m = createMatcher("t*st*");
+		assertTrue(m.matches("tasrestfdstdsa"));
+	}
+
+	@Test
+	public void match_shouldUseStarAsPlaceholderForAnyChars_NoMatch() {
+		PatternMatcher m = createMatcher("ta*ste*");
+		assertFalse(m.matches("takdfskteklsd"));
 	}
 
 	private PatternMatcher createMatcher(String pattern) {

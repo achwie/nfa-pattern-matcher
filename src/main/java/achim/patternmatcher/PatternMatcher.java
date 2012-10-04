@@ -8,7 +8,10 @@ import java.util.List;
  * patterns:
  * <ul>
  * <li><code>.</code> - Any char with exactly one occurence.
+ * <li><code>*</code> - Any char-sequence of length zero or more
  * </ul>
+ * So the pattern <code>H.m*er</code> would match <code>Hammer</code>,
+ * <code>Homer</code>, or <code>Hamburger</code> but not <code>Hmier</code>.
  * 
  * @author achim, Oct 3, 2012
  */
@@ -65,15 +68,21 @@ public class PatternMatcher {
 
 			switch (ch) {
 			case '.':
-				t = new MatchAnyCharTransition();
+				t = new MatchAnySingleCharTransition();
+				s.addTransition(t);
+				t.outcome = new State();
+				break;
+			case '*':
+				t = new MatchAnySingleCharTransition();
+				s.addTransition(t);
+				t.outcome = s;
 				break;
 			default:
 				t = new MatchSingleCharTransition(ch);
+				s.addTransition(t);
+				t.outcome = new State();
 				break;
 			}
-
-			s.addTransition(t);
-			t.outcome = new State();
 
 			s = t.outcome;
 		}
@@ -108,7 +117,7 @@ public class PatternMatcher {
 		public abstract boolean mayTransist(char ch);
 	}
 
-	private static class MatchAnyCharTransition extends Transition {
+	private static class MatchAnySingleCharTransition extends Transition {
 		@Override
 		public boolean mayTransist(char ch) {
 			return true;
