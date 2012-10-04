@@ -5,8 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * 
- * @author achim, Oct 3, 2012
+ * @author Achim Wiedemann, Oct 3, 2012
  */
 public class PatternMatcherTest {
 

@@ -116,7 +116,7 @@ public class PatternMatcher {
 		case '.':
 			return new MatchAnySingleCharTransition(new State());
 		case '*':
-			// Create a loop in the state machine because with a star-metachar,
+			// Create a loop in the state machine because with a star metachar,
 			// every input char is valid and leads to the previous state again
 			return new MatchAnySingleCharTransition(prevState);
 		default:
